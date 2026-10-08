@@ -1,0 +1,105 @@
+---
+import { Image } from 'astro:assets';
+import ProfilePicture from '../assets/profile_pic.jpg';
+import BaseHead from '../components/BaseHead.astro';
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
+import { SITE_TITLE } from '../consts';
+
+const authorURL = new URL('/about/', Astro.site).href;
+const structuredData = {
+	'@context': 'https://schema.org',
+	'@type': 'Person',
+	'@id': `${authorURL}#person`,
+	name: SITE_TITLE,
+	url: authorURL,
+	image: new URL(ProfilePicture.src, Astro.site).href,
+	jobTitle: 'Senior Future Networks Technologist',
+	worksFor: {
+		'@type': 'Organization',
+		name: 'Digital Catapult',
+	},
+	description: 'Kostas Antonakoglou works on cloud and 5G service orchestration, quantum computing for networks, and quantum network architectures. Previously a post-doc at King\'s College London\'s Centre for Telecommunications Research, his research includes the Tactile Internet, bilateral teleoperation, federated learning, UAV communication, wireless sensor networks, and computer vision.',
+	sameAs: [
+		'https://www.linkedin.com/in/kostasantonakoglou/',
+		'https://scholar.google.com/citations?user=rmKT4ToAAAAJ&safe=active',
+	],
+};
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<BaseHead
+			title={`About | ${SITE_TITLE}`}
+			description="Kostas Antonakoglou's work in cloud and 5G orchestration, quantum networks, and the Tactile Internet."
+			image={ProfilePicture}
+		/>
+		<script
+			type="application/ld+json"
+			set:html={JSON.stringify(structuredData).replace(/</g, '\\u003c')}
+		/>
+	</head>
+	<body>
+		<Header />
+		<main>
+			<Image
+				class="profile-picture"
+				src={ProfilePicture}
+				alt="Kostas Antonakoglou"
+				width={160}
+				height={160}
+				widths={[160, 320]}
+				sizes="160px"
+				loading="eager"
+			/>
+			<h1>About</h1>
+			<p>
+				Hi there! I&rsquo;m Kostas Antonakoglou, currently a Senior Future Networks Technologist
+				at Digital Catapult. My work focuses on R&amp;D for cloud and 5G service orchestration,
+				and I am currently expanding into quantum computing for networks and quantum network
+				architectures.
+			</p>
+			<p>
+				Previously, I was a post-doc at King&rsquo;s College London's Centre for
+				Telecommunications Research. There, I worked on the Tactile Internet, primarily on
+				network-enabled bilateral teleoperation, federated learning, and a bit of UAV
+				communication. Earlier in my career, my research interest included wireless sensor
+				networks and computer vision.
+			</p>
+			<ul class="profiles">
+				<li>
+					<a href="https://www.linkedin.com/in/kostasantonakoglou/">LinkedIn</a>
+				</li>
+				<li>
+					<a href="https://scholar.google.com/citations?user=rmKT4ToAAAAJ&amp;safe=active">
+						Google Scholar
+					</a>
+				</li>
+			</ul>
+		</main>
+		<Footer />
+	</body>
+</html>
+
+<style>
+	.profile-picture {
+		display: block;
+		width: 160px;
+		height: 160px;
+		object-fit: cover;
+		border-radius: 50%;
+		margin-bottom: 1.5rem;
+	}
+	h1 {
+		font-size: 2rem;
+	}
+	.profiles {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 1rem 2rem;
+		list-style: none;
+		padding: 0;
+		margin: 2rem 0 0;
+	}
+</style>

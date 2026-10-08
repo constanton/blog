@@ -1,0 +1,131 @@
+---
+import { Image } from 'astro:assets';
+import type { CollectionEntry } from 'astro:content';
+import BaseHead from '../components/BaseHead.astro';
+import Footer from '../components/Footer.astro';
+import FormattedDate from '../components/FormattedDate.astro';
+import Header from '../components/Header.astro';
+import { SITE_TITLE } from '../consts';
+
+type Props = CollectionEntry<'blog'>['data'];
+
+const { title, description, pubDate, updatedDate, heroImage, image } = Astro.props;
+const postImage = heroImage ?? image;
+const canonicalURL = new URL(Astro.url.pathname, Astro.site).href;
+const authorURL = new URL('/about/', Astro.site).href;
+const structuredData = {
+	'@context': 'https://schema.org',
+	'@type': 'BlogPosting',
+	'@id': `${canonicalURL}#article`,
+	url: canonicalURL,
+	headline: title,
+	description,
+	datePublished: pubDate.toISOString(),
+	...(updatedDate ? { dateModified: updatedDate.toISOString() } : {}),
+	...(postImage ? { image: new URL(postImage.src, Astro.site).href } : {}),
+	author: {
+		'@type': 'Person',
+		'@id': `${authorURL}#person`,
+		name: SITE_TITLE,
+		url: authorURL,
+	},
+	mainEntityOfPage: {
+		'@type': 'WebPage',
+		'@id': canonicalURL,
+	},
+};
+---
+
+<html lang="en">
+	<head>
+		<BaseHead
+			title={title}
+			description={description}
+			image={postImage}
+			type="article"
+			publishedTime={pubDate}
+			modifiedTime={updatedDate}
+		/>
+		<script
+			type="application/ld+json"
+			set:html={JSON.stringify(structuredData).replace(/</g, '\\u003c')}
+		/>
+		<style>
+			main {
+				width: calc(100% - 2em);
+				max-width: 100%;
+				margin: 0;
+			}
+			.hero-image {
+				width: 100%;
+			}
+			.hero-image img {
+				display: block;
+				margin: 0 auto;
+				border-radius: 12px;
+				box-shadow: var(--box-shadow);
+			}
+			.prose {
+				width: 720px;
+				max-width: calc(100% - 2em);
+				margin: auto;
+				padding: 1em;
+				color: rgb(var(--gray-dark));
+			}
+			.prose :global(iframe) {
+				display: block;
+				width: 100%;
+				height: auto;
+				aspect-ratio: 16 / 9;
+				border: 0;
+				margin: 1.5em 0;
+			}
+			.title {
+				margin-bottom: 1em;
+				padding: 1em 0;
+				text-align: center;
+				line-height: 1;
+			}
+			.title h1 {
+				margin: 0 0 0.5em 0;
+				font-size: 1.75rem;
+				line-height: 1.3;
+				overflow-wrap: anywhere;
+			}
+			.date {
+				margin-bottom: 0.5em;
+				color: rgb(var(--gray));
+			}
+			.last-updated-on {
+				font-style: italic;
+			}
+		</style>
+	</head>
+
+	<body>
+		<Header />
+		<main>
+			<article>
+				<div class="hero-image">
+					{postImage && <Image width={1020} height={510} src={postImage} alt="" />}
+				</div>
+				<div class="prose">
+					<div class="title">
+						<div class="date">
+							<FormattedDate date={pubDate} />
+							{updatedDate && (
+								<div class="last-updated-on">
+									Last updated on <FormattedDate date={updatedDate} />
+								</div>
+							)}
+						</div>
+						<h1>{title}</h1>
+						<hr />
+					</div>
+					<slot />
+				</div>
+			</article>
+		</main>
+		<Footer />
+	</body>
+</html>

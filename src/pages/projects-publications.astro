@@ -1,0 +1,263 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
+import { SITE_TITLE } from '../consts';
+
+const scholarURL = 'https://scholar.google.com/citations?user=rmKT4ToAAAAJ&hl=en';
+const publications = [
+	{
+		title: 'CAMINO: Cloud-Native Autonomous Management and Intent-Based Orchestrator',
+		firstAuthor: 'K. Antonakoglou',
+		year: 2025,
+		venue: '2025 Joint European Conference on Networks and Communications & 6G Summit (EuCNC/6G Summit), Poznan, Poland, pages 357-362',
+		citation: 'IWHjjKOFINEC',
+		paper: 'https://doi.org/10.1109/EuCNC/6GSummit63408.2025.11036734',
+	},
+	{
+		title: 'Toward Haptic Communications Over the 5G Tactile Internet',
+		firstAuthor: 'K. Antonakoglou',
+		year: 2018,
+		venue: 'IEEE Communications Surveys & Tutorials, volume 20, issue 4, pages 3034-3059',
+		citation: 'Zph67rFs4hoC',
+		paper: 'https://doi.org/10.1109/COMST.2018.2851452',
+		more: '/blog/tactile_internet/',
+	},
+	{
+		title: 'AI-Native Multi-Access Future Networks\u2014The REASON Architecture',
+		firstAuthor: 'K. Katsaros',
+		year: 2024,
+		venue: 'IEEE Access, volume 12, pages 178586-178622',
+		citation: 'ZeXyd9-uunAC',
+		paper: 'https://doi.org/10.1109/ACCESS.2024.3507186',
+	},
+	{
+		title: 'Achieving End-to-End Reliability of Mission-Critical Traffic in Softwarized 5G Networks',
+		firstAuthor: 'V. Petrov',
+		year: 2018,
+		venue: 'IEEE Journal on Selected Areas in Communications, volume 36, issue 3, March 2018, pages 485-501',
+		citation: 'KlAtU1dfN6UC',
+		paper: 'https://doi.org/10.1109/JSAC.2018.2815419',
+	},
+	{
+		title: 'On the Needs and Requirements Arising from Connected and Automated Driving',
+		firstAuthor: 'K. Antonakoglou',
+		year: 2020,
+		venue: 'Journal of Sensor and Actuator Networks, volume 9, issue 2, article 24, May 2020',
+		citation: '_kc_bZDykSQC',
+		paper: 'https://doi.org/10.3390/jsan9020024',
+	},
+	{
+		title: '5G Case Study of Internet of Skills: Slicing the Human Senses',
+		firstAuthor: 'M. A. Lema',
+		year: 2017,
+		venue: 'European Conference on Networks and Communications (EuCNC), pages 1-6',
+		citation: '3fE2CSJIrl8C',
+	},
+];
+const projects = [
+	{
+		name: 'VNE Lab',
+		area: 'Network resource allocation & benchmarking',
+		description: 'A framework for benchmarking virtual network embedding algorithms based on the VIRNE simulator, combining ranking and meta-heuristic baselines, reinforcement-learning solvers, and topology-based experiments.',
+		technology: 'Python, VIRNE, Hydra, reinforcement learning',
+		url: 'https://github.com/CDECatapult/vne-lab',
+	},
+	{
+		name: 'TouchP2P',
+		area: 'Haptics & networked robotics',
+		description: 'A research application for bilateral teleoperation with force feedback between two 3D Systems Touch devices, using a position-position configuration over a network.',
+		technology: 'C++, Boost, OpenHaptics',
+		url: 'https://github.com/constanton/TouchP2P',
+		more: '/blog/bilateral-teleoperation/',
+		moreLabel: 'Demo & write-up',
+	},
+	{
+		name: 'bLDFV',
+		area: 'Computer vision & person re-identification',
+		description: 'A research implementation extending local descriptors encoded by Fisher vectors for person re-identification, using OpenCV and VLFeat.',
+		technology: 'C++, OpenCV, VLFeat',
+		url: 'https://github.com/constanton/bLDFV',
+		more: '/blog/bldfv_implementation/',
+		moreLabel: 'Implementation notes',
+	},
+	{
+		name: 'Jarful',
+		area: 'Personal product & full-stack development',
+		description: 'A web application for collecting messages, memories, and surprises in virtual jars, with a daily message reveal.',
+		technology: 'Next.js, FastAPI, PostgreSQL, Redis',
+		url: 'https://github.com/constanton/jarful',
+		more: 'https://jarful.io',
+		moreLabel: 'Website',
+	},
+];
+const citationURL = (citation: string) =>
+	`${scholarURL}&view_op=view_citation&citation_for_view=rmKT4ToAAAAJ:${citation}`;
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<BaseHead
+			title={`Projects/Publications | ${SITE_TITLE}`}
+			description="Selected publications and projects by Kostas Antonakoglou, covering network orchestration, 5G, the Tactile Internet, robotics, and computer vision."
+		/>
+	</head>
+	<body>
+		<Header />
+		<main>
+			<h1>Projects/Publications</h1>
+			<p class="intro">Selected research and open-source work in network orchestration, intelligent networks, haptics, and computer vision.</p>
+			<nav class="page-links" aria-label="Page sections">
+				<a href="#publications">Publications</a>
+				<a href="#projects">Projects</a>
+			</nav>
+			<section id="publications" aria-labelledby="publications-title">
+				<div class="section-heading">
+					<h2 id="publications-title">Publication Highlights</h2>
+					<a href={scholarURL}>Full Google Scholar profile</a>
+				</div>
+				<ol class="publication-list">
+					{publications.map((publication) => (
+						<li>
+							<p class="publication-meta">
+								<span>{publication.year}</span>
+								<span>{publication.firstAuthor} et al.</span>
+							</p>
+							<h3><a href={publication.paper ?? citationURL(publication.citation)}>{publication.title}</a></h3>
+							<p class="venue">{publication.venue}</p>
+							{publication.more && (
+								<div class="entry-links"><a href={publication.more}>Research overview</a></div>
+							)}
+						</li>
+					))}
+				</ol>
+			</section>
+			<section id="projects" aria-labelledby="projects-title">
+				<div class="section-heading">
+					<h2 id="projects-title">Selected Projects</h2>
+					<a href="https://github.com/constanton">All GitHub projects</a>
+				</div>
+				<ul class="project-list">
+					{projects.map((project) => (
+						<li>
+							<p class="area">{project.area}</p>
+							<h3><a href={project.url}>{project.name}</a></h3>
+							<p>{project.description}</p>
+							<p class="technology">{project.technology}</p>
+							<div class="entry-links">
+								<a href={project.url}>Source code</a>
+								{project.more && <a href={project.more}>{project.moreLabel}</a>}
+							</div>
+						</li>
+						))}
+				</ul>
+			</section>
+		</main>
+		<Footer />
+	</body>
+</html>
+
+<style>
+	main {
+		width: 860px;
+	}
+	h1 {
+		font-size: 2rem;
+		line-height: 1.3;
+	}
+	h2 {
+		font-size: 1.375rem;
+		line-height: 1.4;
+	}
+	h3 {
+		font-size: 1.125rem;
+		line-height: 1.4;
+		overflow-wrap: anywhere;
+	}
+	p {
+		font-size: 1rem;
+		line-height: 1.6;
+		margin: 0.5rem 0;
+	}
+	.intro {
+		max-width: 680px;
+	}
+	.page-links,
+	.entry-links {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.5rem 1.5rem;
+		font-size: 0.875rem;
+	}
+	.page-links {
+		margin: 1.5rem 0 2.5rem;
+	}
+	section {
+		scroll-margin-top: 1.5rem;
+	}
+	section + section {
+		margin-top: 2.5rem;
+		padding-top: 2rem;
+		border-top: 1px solid rgb(var(--gray-light));
+	}
+	.section-heading {
+		display: flex;
+		align-items: baseline;
+		justify-content: space-between;
+		flex-wrap: wrap;
+		gap: 0.5rem 1rem;
+		margin-bottom: 1.5rem;
+	}
+	.section-heading a {
+		font-size: 0.875rem;
+	}
+	.publication-list,
+	.project-list {
+		list-style: none;
+		padding: 0;
+		margin: 0;
+	}
+	.publication-list li + li {
+		margin-top: 0.75rem;
+		padding-top: 0.75rem;
+		border-top: 1px solid rgb(var(--gray-light));
+	}
+	.publication-list h3 {
+		margin: 0.125rem 0;
+	}
+	.publication-list .venue {
+		margin: 0.25rem 0;
+		line-height: 1.4;
+	}
+	.publication-list .entry-links {
+		margin-top: 0.25rem;
+	}
+	.publication-meta {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.25rem 1rem;
+		margin: 0;
+		line-height: 1.4;
+	}
+	.publication-meta,
+	.venue,
+	.area,
+	.technology {
+		font-size: 0.875rem;
+		color: rgb(var(--gray));
+	}
+	.entry-links {
+		margin-top: 0.75rem;
+	}
+	.project-list {
+		display: grid;
+		grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+		gap: 2rem;
+	}
+	@media (max-width: 720px) {
+		.project-list {
+			grid-template-columns: minmax(0, 1fr);
+		}
+	}
+</style>

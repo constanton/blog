@@ -1,24 +1,42 @@
 ---
 import { Image } from 'astro:assets';
-import { getCollection } from 'astro:content';
+import type { Page } from 'astro';
+import { getCollection, type CollectionEntry } from 'astro:content';
 import BaseHead from '../../components/BaseHead.astro';
 import Footer from '../../components/Footer.astro';
 import FormattedDate from '../../components/FormattedDate.astro';
 import Header from '../../components/Header.astro';
 import { SITE_DESCRIPTION, SITE_TITLE } from '../../consts';
 
-const posts = (await getCollection('blog')).sort(
-	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+interface Props {
+	page?: Page<CollectionEntry<'blog'>>;
+}
+
+const { page } = Astro.props;
+const allPosts = page ? [] : (await getCollection('blog')).sort(
+	(first, second) => second.data.pubDate.valueOf() - first.data.pubDate.valueOf(),
 );
+const posts = page?.data ?? allPosts.slice(0, 6);
+const currentPage = page?.currentPage ?? 1;
+const totalPages = page?.lastPage ?? Math.max(1, Math.ceil(allPosts.length / 6));
+const pageURL = (number: number) => number === 1 ? '/' : `/blog/page/${number}/`;
+const pageTitle = currentPage === 1 ? SITE_TITLE : `Blog - Page ${currentPage} | ${SITE_TITLE}`;
 ---
 
 <!doctype html>
 <html lang="en">
 	<head>
-		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+		<BaseHead title={pageTitle} description={SITE_DESCRIPTION} />
+		{currentPage > 1 && <link rel="prev" href={new URL(pageURL(currentPage - 1), Astro.site)} />}
+		{currentPage < totalPages && <link rel="next" href={new URL(pageURL(currentPage + 1), Astro.site)} />}
 		<style>
 			main {
 				width: 960px;
+			}
+			.listing-heading {
+				font-size: 1.75rem;
+				line-height: 1.3;
+				margin: 0 0 1.5rem;
 			}
 			ul {
 				display: flex;
@@ -30,28 +48,26 @@ const posts = (await getCollection('blog')).sort(
 			}
 			ul li {
 				width: calc(50% - 1rem);
+				min-width: 0;
+				border-top: 1px solid rgb(var(--gray-light));
+				padding-top: 1rem;
 			}
 			ul li * {
 				text-decoration: none;
-				transition: 0.2s ease;
-			}
-			ul li:first-child {
-				width: 100%;
-				margin-bottom: 1rem;
-				text-align: center;
-			}
-			ul li:first-child img {
-				width: 100%;
-			}
-			ul li:first-child .title {
-				font-size: 1.375rem;
 			}
 			ul li img {
 				margin-bottom: 0.5rem;
-				border-radius: 12px;
+				border-radius: 8px;
 			}
 			ul li a {
 				display: block;
+				padding: 0.75rem;
+				border-radius: 4px;
+				transition: background-color 160ms ease;
+			}
+			ul li a:hover,
+			ul li a:focus-visible {
+				background-color: rgba(220, 239, 232, 0.55);
 			}
 			.title {
 				margin: 0;
@@ -73,15 +89,57 @@ const posts = (await getCollection('blog')).sort(
 				overflow: hidden;
 			}
 			.date {
-				margin: 0;
+				margin: 0.5rem 0 0;
 				color: rgb(var(--gray));
+				font-size: 0.875rem;
+				font-variant-numeric: tabular-nums;
 			}
 			ul li a:hover h4,
 			ul li a:hover .date {
-				color: rgb(var(--accent));
+				color: var(--accent-dark);
 			}
 			ul a:hover img {
 				box-shadow: var(--box-shadow);
+			}
+			.pagination {
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				flex-wrap: wrap;
+				gap: 0.75rem 1rem;
+				margin-top: 2.5rem;
+				padding-top: 1.5rem;
+				border-top: 1px solid rgb(var(--gray-light));
+				font-size: 0.9375rem;
+			}
+			.page-numbers {
+				display: flex;
+				justify-content: center;
+				flex-wrap: wrap;
+				gap: 0.25rem;
+			}
+			.page-numbers a,
+			.page-numbers span {
+				display: inline-flex;
+				align-items: center;
+				justify-content: center;
+				width: 2rem;
+				height: 2.5rem;
+				border-radius: 4px;
+				text-decoration: none;
+			}
+			.page-numbers a:hover,
+			.page-numbers [aria-current="page"] {
+				background: var(--mint);
+				color: var(--accent-dark);
+			}
+			.page-numbers [aria-current="page"] {
+				font-weight: 700;
+			}
+			@media (prefers-reduced-motion: reduce) {
+				ul li a {
+					transition: none;
+				}
 			}
 			@media (max-width: 720px) {
 				ul {
@@ -91,8 +149,9 @@ const posts = (await getCollection('blog')).sort(
 					width: 100%;
 					text-align: center;
 				}
-				ul li:first-child {
-					margin-bottom: 0;
+				.page-numbers {
+					flex-basis: 100%;
+					order: 1;
 				}
 			}
 		</style>
@@ -100,6 +159,7 @@ const posts = (await getCollection('blog')).sort(
 	<body>
 		<Header />
 		<main>
+			{currentPage === 1 && <h1 class="listing-heading">Latest Posts</h1>}
 			<section>
 				<ul>
 					{posts.map((post) => {
@@ -121,6 +181,19 @@ const posts = (await getCollection('blog')).sort(
 					})}
 				</ul>
 			</section>
+			{totalPages > 1 && (
+				<nav class="pagination" aria-label="Blog pagination">
+					{currentPage > 1 && <a href={pageURL(currentPage - 1)} rel="prev">Previous</a>}
+					<div class="page-numbers">
+						{Array.from({ length: totalPages }, (_, index) => index + 1).map((number) => (
+							number === currentPage
+								? <span aria-current="page" aria-label={`Page ${number}, current page`}>{number}</span>
+								: <a href={pageURL(number)} aria-label={`Page ${number}`}>{number}</a>
+						))}
+					</div>
+					{currentPage < totalPages && <a href={pageURL(currentPage + 1)} rel="next">Next</a>}
+				</nav>
+			)}
 		</main>
 		<Footer />
 	</body>

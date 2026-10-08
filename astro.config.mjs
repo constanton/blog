@@ -10,6 +10,15 @@ export default defineConfig({
 	integrations: [mdx(), sitemap()],
 	fonts: [
 		{
+			provider: fontProviders.fontsource(),
+			name: 'Bitter',
+			cssVariable: '--font-bitter',
+			weights: [600, 700],
+			styles: ['normal'],
+			subsets: ['latin', 'latin-ext'],
+			fallbacks: ['serif'],
+		},
+		{
 			provider: fontProviders.local(),
 			name: 'Atkinson',
 			cssVariable: '--font-atkinson',

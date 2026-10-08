@@ -166,6 +166,14 @@ const citationURL = (citation: string) =>
 		font-size: 2rem;
 		line-height: 1.3;
 	}
+	h1::after {
+		content: '';
+		display: block;
+		width: 64px;
+		height: 3px;
+		margin: 0.75rem 0 1rem;
+		background: linear-gradient(90deg, var(--accent), var(--peach));
+	}
 	h2 {
 		font-size: 1.375rem;
 		line-height: 1.4;
@@ -254,6 +262,16 @@ const citationURL = (citation: string) =>
 		display: grid;
 		grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
 		gap: 2rem;
+	}
+	.project-list > li {
+		border-top: 3px solid var(--mint);
+		padding-top: 1rem;
+	}
+	.project-list > li:nth-child(even) {
+		border-top-color: var(--peach);
+	}
+	.area {
+		color: var(--accent);
 	}
 	@media (max-width: 720px) {
 		.project-list {

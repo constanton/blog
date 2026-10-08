@@ -55,6 +55,7 @@ const structuredData = {
 				width: calc(100% - 2em);
 				max-width: 100%;
 				margin: 0;
+				background: var(--surface);
 			}
 			.hero-image {
 				width: 100%;
@@ -62,7 +63,7 @@ const structuredData = {
 			.hero-image img {
 				display: block;
 				margin: 0 auto;
-				border-radius: 12px;
+				border-radius: 8px;
 				box-shadow: var(--box-shadow);
 			}
 			.prose {
@@ -81,10 +82,16 @@ const structuredData = {
 				margin: 1.5em 0;
 			}
 			.title {
-				margin-bottom: 1em;
-				padding: 1em 0;
+				margin: 0 -1em 1.75em;
+				padding: 1.75rem 1em;
+				background: linear-gradient(110deg, rgba(220, 239, 232, 0.55), rgba(245, 221, 211, 0.45));
+				border-top: 1px solid rgb(var(--gray-light));
+				border-bottom: 1px solid rgb(var(--gray-light));
 				text-align: center;
 				line-height: 1;
+			}
+			.title hr {
+				display: none;
 			}
 			.title h1 {
 				margin: 0 0 0.5em 0;
@@ -95,6 +102,8 @@ const structuredData = {
 			.date {
 				margin-bottom: 0.5em;
 				color: rgb(var(--gray));
+				font-size: 0.875rem;
+				font-variant-numeric: tabular-nums;
 			}
 			.last-updated-on {
 				font-style: italic;

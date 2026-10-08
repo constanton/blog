@@ -1,0 +1,20 @@
+---
+import type { GetStaticPaths, Page } from 'astro';
+import { getCollection, type CollectionEntry } from 'astro:content';
+import BlogIndex from '../index.astro';
+
+export const getStaticPaths = (async ({ paginate }) => {
+	const posts = (await getCollection('blog')).sort(
+		(first, second) => second.data.pubDate.valueOf() - first.data.pubDate.valueOf(),
+	);
+	return paginate(posts, { pageSize: 6 }).filter(({ props }) => props.page.currentPage > 1);
+}) satisfies GetStaticPaths;
+
+interface Props {
+	page: Page<CollectionEntry<'blog'>>;
+}
+
+const { page } = Astro.props;
+---
+
+<BlogIndex page={page} />

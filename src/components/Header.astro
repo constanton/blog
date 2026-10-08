@@ -1,6 +1,13 @@
 ---
+import { faLinkedin, faOrcid } from '@fortawesome/free-brands-svg-icons';
+import { faRss } from '@fortawesome/free-solid-svg-icons';
 import { SITE_TITLE } from '../consts';
 import HeaderLink from './HeaderLink.astro';
+
+const profiles = [
+	{ name: 'LinkedIn', href: 'https://www.linkedin.com/in/kostasantonakoglou', icon: faLinkedin },
+	{ name: 'ORCID', href: 'https://orcid.org/0000-0002-7436-0506', icon: faOrcid },
+];
 ---
 
 <header>
@@ -12,7 +19,6 @@ import HeaderLink from './HeaderLink.astro';
 			<HeaderLink href="/">Blog</HeaderLink>
 			<HeaderLink href="/projects-publications">Projects/Publications</HeaderLink>
 			<HeaderLink href="/about">About</HeaderLink>
-			<a href="/rss.xml">RSS</a>
 		</div>
 		<div class="social-links">
 			<a href="https://github.com/constanton" target="_blank" rel="noopener noreferrer" title="GitHub">
@@ -24,19 +30,43 @@ import HeaderLink from './HeaderLink.astro';
 					></path>
 				</svg>
 			</a>
+			{profiles.map((profile) => (
+				<a href={profile.href} target="_blank" rel="noopener noreferrer" title={profile.name}>
+					<span class="sr-only">Kostas Antonakoglou on {profile.name}</span>
+					<svg
+						viewBox={`0 0 ${profile.icon.icon[0]} ${profile.icon.icon[1]}`}
+						aria-hidden="true"
+						width="32"
+						height="32"
+					>
+						{(Array.isArray(profile.icon.icon[4]) ? profile.icon.icon[4] : [profile.icon.icon[4]]).map((pathData) => (
+							<path fill="currentColor" d={pathData} />
+						))}
+					</svg>
+				</a>
+			))}
+			<a href="/rss.xml" title="RSS feed" data-astro-reload>
+				<span class="sr-only">Subscribe to Kostas Antonakoglou's RSS feed</span>
+				<svg viewBox={`0 0 ${faRss.icon[0]} ${faRss.icon[1]}`} aria-hidden="true" width="32" height="32">
+					{(Array.isArray(faRss.icon[4]) ? faRss.icon[4] : [faRss.icon[4]]).map((pathData) => (
+						<path fill="currentColor" d={pathData} />
+					))}
+				</svg>
+			</a>
 		</div>
 	</nav>
 </header>
 <style>
 	header {
 		margin: 0;
-		padding: 0 1em;
-		background: white;
-		box-shadow: 0 2px 8px rgba(var(--black), 5%);
+		padding: 0 1.25em;
+		background: linear-gradient(110deg, rgba(220, 239, 232, 0.65), rgba(245, 221, 211, 0.55));
+		border-bottom: 1px solid rgb(var(--gray-light));
 	}
 	h2 {
 		margin: 0;
-		font-size: 1em;
+		font-size: 1.25rem;
+		line-height: 1.4;
 	}
 
 	h2 a,
@@ -48,12 +78,26 @@ import HeaderLink from './HeaderLink.astro';
 		align-items: center;
 		justify-content: space-between;
 		flex-wrap: wrap;
+		gap: 0.25rem 1.5rem;
+		max-width: 1120px;
+		margin: auto;
+		padding: 0.5rem 0;
 	}
 	nav a {
-		padding: 1em 0.5em;
-		color: var(--black);
-		border-bottom: 4px solid transparent;
+		padding: 0.75em 0.5em;
+		color: rgb(var(--black));
+		border-bottom: 2px solid transparent;
 		text-decoration: none;
+	}
+	.internal-links {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: 0.25rem 0.5rem;
+		font-size: 0.9375rem;
+	}
+	.internal-links :global(a:hover) {
+		color: var(--accent-dark);
 	}
 	nav a.active {
 		text-decoration: none;
@@ -63,9 +107,54 @@ import HeaderLink from './HeaderLink.astro';
 	.social-links a {
 		display: flex;
 	}
+	.social-links {
+		gap: 0.25rem;
+		margin-left: auto;
+	}
+	.social-links svg {
+		width: 23px;
+		height: 23px;
+		flex-shrink: 0;
+	}
+	.social-links a {
+		align-items: center;
+		justify-content: center;
+		box-sizing: border-box;
+		width: 44px;
+		height: 44px;
+		padding: 0;
+		border-bottom: 0;
+		border-radius: 4px;
+	}
+	.social-links a:hover {
+		color: var(--accent-dark);
+		background: rgba(220, 239, 232, 0.55);
+	}
 	@media (max-width: 720px) {
+		header {
+			padding: 0 1rem;
+		}
+		nav {
+			display: grid;
+			grid-template-columns: minmax(0, 1fr) auto;
+			gap: 0.5rem 0.75rem;
+			padding: 0.75rem 0;
+		}
+		.internal-links {
+			grid-column: 1 / -1;
+			grid-row: 2;
+			gap: 0.25rem;
+		}
 		.social-links {
-			display: none;
+			grid-column: 2;
+			grid-row: 1;
+			margin-left: 0;
+		}
+	}
+	@media (max-width: 480px) {
+		.social-links {
+			display: grid;
+			grid-template-columns: repeat(2, 44px);
 		}
 	}
 </style>

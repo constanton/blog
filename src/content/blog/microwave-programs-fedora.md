@@ -16,11 +16,11 @@ You can easily install [Qucs](http://qucs.sourceforge.net/) with : $ su -c “yu
 To install Transcalc you will need to install the GTK2.0 development files (gtk2-devel on fedora). After you [download the package](http://transcalc.sourceforge.net/#download) and place it in a folder of your choice (I have a “programs” folder and place every to-be-installed program there) you can go to the terminal and write :
 
 > $ cd ./your\_path\_to\_transcalc\_folder/
-> 
+>
 > $ ./configure (if something is missing search in yum or “Add/Remove applications”)
-> 
+>
 > $ make
-> 
+>
 > $ su -c “make install” ….and to run the program just type : $ transcalc
 
 A few words for [emGine](http://www.petr-lorenz.com/emgine/index.php)! It’s a full-wave 3D electromagnetic field simulation environment solving Maxwell’s equations in time-domain. You create 3D models of your components, put the parameters and then simulate and get your graphs and results. Not 3D FDTD.
@@ -41,8 +41,8 @@ What did I need to install Meep on Fedora 14?
 
 Then let’s go to the terminal one last time:
 
-> $ export LDFLAGS=”$LDFLAGS -lm”    (this line is needed to avoid the [DSO Linking error](http://fedoraproject.org/wiki/UnderstandingDSOLinkChange) with libm.so)  
-> $ make  
+> $ export LDFLAGS=”$LDFLAGS -lm”    (this line is needed to avoid the [DSO Linking error](http://fedoraproject.org/wiki/UnderstandingDSOLinkChange) with libm.so)
+> $ make
 > $ make install
 
 Now if you type: $ meep …you should get:  meep>    I tried to make a 2D example to simulate a waveguide. Not the fastest thing I have done in my life 😛

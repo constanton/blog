@@ -16,7 +16,7 @@ Just copy the whole text and paste it on your terminal as it is 🙂
 > ```
 > cat > $HOME/.mozilla/linusmemcpy.c <<EOF
 > #include <sys/types.h>
-> 
+>
 > void *memcpy(void *dst, const void *src, size_t size)
 > {
 > void *orig = dst;
@@ -42,9 +42,9 @@ linusmemcpy.clin
 
 Now the next very small step is to automate the procedure of starting Firefox correctly with the shortcut on the desktop panel. We will create a small shell script the same way we did with our C file. If you are using beta that means somewhere in your system exists the “firefox” shell script that executes the firefox-bin. We need to know the path to it! If already have a shortcut, right click -> Properties and look at “Command” . This is it. Mine (for [firefox 4](http://fedoraproject.org/wiki/Firefox_4) from spot’s repos) says firefox4. Don’t forget the & at the end 😉
 
-> cat > $HOME/.mozilla/custom\_firefox\_startup.sh <<EOF  
-> LD\_PRELOAD=$HOME/.mozilla/linusmemcpy.so firefox4 &  
-> EOF  
+> cat > $HOME/.mozilla/custom\_firefox\_startup.sh <<EOF
+> LD\_PRELOAD=$HOME/.mozilla/linusmemcpy.so firefox4 &
+> EOF
 > chmod u+x $HOME/.mozilla/custom\_firefox\_startup.sh
 
 So, now is our last step! Go to the icon of Firefox on the desktop panel , right click -> Properties , and at the command click “Browse” press control+H to unhide the folders, enter the .mozilla folder and select “custom\_firefox\_startup.sh”.

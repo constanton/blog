@@ -13,25 +13,25 @@ What I need to tell you is that: If you don’t know what you are doing, don’t
 
 The [Bumblebee](http://bumblebee-project.org/) project is for resolving the NVIDIA Optimus problem, not SONY’s hybrid system installed on some VAIO’s. So, I didn’t try that. What we are going to use is  [**acpi\_call**](https://github.com/mkottman/acpi_call/ "acpi_call") which is a kernel module (tip: that means it needs to be compiled again after a kernel update 🙂 )that will help us configure Fedora”s power management system in order to shut down the NVIDIA card.
 
-My resources in order to learn how to shut down the card were mainly these:  
-[http://amolh.weebly.com/2/post/2012/02/asusu36sd.html](http://amolh.weebly.com/2/post/2012/02/asusu36sd.html)  
+My resources in order to learn how to shut down the card were mainly these:
+[http://amolh.weebly.com/2/post/2012/02/asusu36sd.html](http://amolh.weebly.com/2/post/2012/02/asusu36sd.html)
 [http://hybrid-graphics-linux.tuxfamily.org/index.php?title=ACPI\_calls](http://hybrid-graphics-linux.tuxfamily.org/index.php?title=ACPI_calls)
 
 We first need (as root) to download (lines 1-3), get inside the folder (line 4), compile (line 5, for that you need gcc, kernel-headers etc. if you don’t know what all that is…ask someone!), install the module on the current kernel  (lines 6-8) and test if it worked (that means the output of test\_off.sh should get you one “works” next to a ACPI handle :
 
-**\# yum -y update**  
-**\# yum install git**  
-**\# git clone [https://github.com/mkottman/acpi\_call](https://github.com/mkottman/acpi_call)**  
-**\# cd acpi\_call**  
-**\# make**  
-**\# cp acpi\_call.ko /lib/modules/\`uname -r\`/kernel/drivers/acpi**  
-**\# depmod -a**  
-**\# modprobe acpi\_call**  
+**\# yum -y update**
+**\# yum install git**
+**\# git clone [https://github.com/mkottman/acpi\_call](https://github.com/mkottman/acpi_call)**
+**\# cd acpi\_call**
+**\# make**
+**\# cp acpi\_call.ko /lib/modules/\`uname -r\`/kernel/drivers/acpi**
+**\# depmod -a**
+**\# modprobe acpi\_call**
 **\# chmod +x ./test\_off.sh**
 
 I got this one: **Trying \\\_SB.PCI0.P0P2.DGPU.\_OFF: works!** …which is great!
 
-The result of the script will also be an increase of the battery duration (which I haven’t tested yet as my battery died a few months ago) and a decrease in the temperature of your system (you can see that in your terminal if you install the [lm\_sensors](http://lm-sensors.org/) package on “Add/Remove Software” or “yum install lm\_sensors”. The temprature of the NVIDIA card will drop to -1 degrees Celsious. The temprature of my CPU dropped approx. from 70 to 58 degrees!!!  
+The result of the script will also be an increase of the battery duration (which I haven’t tested yet as my battery died a few months ago) and a decrease in the temperature of your system (you can see that in your terminal if you install the [lm\_sensors](http://lm-sensors.org/) package on “Add/Remove Software” or “yum install lm\_sensors”. The temprature of the NVIDIA card will drop to -1 degrees Celsious. The temprature of my CPU dropped approx. from 70 to 58 degrees!!!
 Now you are able to shut down the NVIDIA card manually while you are using Fedora. Next, we have to make Fedora do this automatically in every boot.
 
 As “su -” we will create a script named nvidia\_off.sh :
@@ -40,11 +40,11 @@ As “su -” we will create a script named nvidia\_off.sh :
 
 and inside this script you will paste this:
 
-> #!/bin/sh  
-> echo “——————————-” >> /var/log/nvidia.log  
-> echo \`date\` >> /var/log/nvidia.log  
-> echo “Disabling Nvidia video adapter !! ” >> /var/log/nvidia.log  
-> echo “——————————-” >> /var/log/nvidia.log  
+> #!/bin/sh
+> echo “——————————-” >> /var/log/nvidia.log
+> echo \`date\` >> /var/log/nvidia.log
+> echo “Disabling Nvidia video adapter !! ” >> /var/log/nvidia.log
+> echo “——————————-” >> /var/log/nvidia.log
 > echo “\\\_SB.PCI0.P0P2.DGPU.\_OFF” > /proc/acpi/call
 
 What’s important is the first and the last line only. The last line might need modification from your part as the ACPI handler might be different for your system (if you have a different laptop than mine). The other lines are not compulsory. Since I use an SSD disc and have moved my /var/log folder in RAM that means logging this info is not really of value. But for everyone else who hasn’t done this it’s cool for debugging.
@@ -67,7 +67,7 @@ To do that we need to create another script in /etc/rc.d/ named “rc.local” (
 
 and write down  or copy-paste this:
 
-> #!/bin/bash  
+> #!/bin/bash
 > /usr/bin/sh /usr/local/bin/nvidia\_off.sh
 
 The final step is to stop the nouveau driver get activated during startup, as it will crash your system. We need to edit grub2:

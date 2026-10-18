@@ -15,9 +15,9 @@ Monday –  Took the train to go back to Prague. I really enjoyed the view of t
 
 But the best part of Monday was that I went to the roof of the [Dancing House](http://en.wikipedia.org/wiki/Dancing_House) at Praha 2:
 
-![Dancing House trick](../../assets/images/external/i0.wp.com/3444786455_a1fbfaefe2.jpg)  
+![Dancing House trick](../../assets/images/external/i0.wp.com/3444786455_a1fbfaefe2.jpg)
 
-Tuesday – As busy as Monday. Went to [Prague Castle](http://en.wikipedia.org/wiki/Prague_Castle) and had a walk around the area. The view from up there is beautiful. Unfortunately, we had to leave to Hradec Kralove.  
+Tuesday – As busy as Monday. Went to [Prague Castle](http://en.wikipedia.org/wiki/Prague_Castle) and had a walk around the area. The view from up there is beautiful. Unfortunately, we had to leave to Hradec Kralove.
 
 Wednesday – Just a break from my holidays to make new plans, charge batteries ( litteraly and metaphorically), relax and go back to Prague tomorrow. Oups!  I’ts Thursday allready. There’s a lot I did but didn’t mention.  Got to go though…2 days left.
 

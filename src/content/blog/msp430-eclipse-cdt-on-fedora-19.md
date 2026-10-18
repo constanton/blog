@@ -34,9 +34,9 @@ Next, go to a terminal, type “su -” and create a file with the command: gedi
 The numbers “0451” and “f432” can be verified if you connect your board and use the command “lsusb”.  Now, go to a terminal for the last time and give these three commands:
 
 > systemctl restart systemd-udevd.service
-> 
+>
 > systemctl restart systemd-udev-trigger.service
-> 
+>
 > systemctl restart systemd-udev-settle.service
 
 Now, let’s make a new project and test what we’ve done. This will require a MSP430 board, hopefully supported by the plugin (which is very probable as you will notice). Create a new C/C++ project and select the “Empty project” at the “MSP430 Cross Target Application” folder. Give it a name and then click Finish.

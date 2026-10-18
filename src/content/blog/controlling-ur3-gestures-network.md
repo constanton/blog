@@ -23,16 +23,16 @@ You can download the Python script [here](https://github.com/constanton/UR3overN
 2.  Download the ROS-Industrial [universal robot meta-package](https://github.com/ros-industrial/universal_robot).
 3.  Download [ur\_modern\_driver](https://github.com/ThomasTimm/ur_modern_driver) and put everything inside the workspace’s src folder.
 4.  Compile with catkin\_make (yes, you will probably need to install many ROS dependencies).
-5.  And then open a terminal to launch ROS with:  
+5.  And then open a terminal to launch ROS with:
 
     > $ source _path/to/workspace_/devel/setup.sh
-    > 
+    >
     > $ roslaunch ur\_bringup ur3\_bringup.launch robot\_ip:=xxx.xxx.xxx.xxx (apply the correct robot IP)
 
-6.  Open another terminal to run the application:  
+6.  Open another terminal to run the application:
 
     > $ source _path/to/workspace_/devel/setup.sh
-    > 
+    >
     > $ rosrun ur\_modern\_driver network\_move.py
 
 Again, as with my previous post…not sure if this is helpful to anyone but it’s good to have it documented somewhere 🙂

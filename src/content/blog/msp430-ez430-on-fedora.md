@@ -33,26 +33,26 @@ now you have installed mspdebug! Great!
 
 If you are ready to use the MSP430 you should have a program already written. In case you don’t, get this example (modified by me to get it to compile) that flashes the internal LED of the device:
 
-/\* Blink LED example \*/  
+/\* Blink LED example \*/
 #include <msp430x20x3.h>
 
-/\*\* Delay function. \*\*/  
-delay(unsigned int d) {  
-int i;  
-for (i = 0; i<d; i++) {  
-nop();  
-}  
+/\*\* Delay function. \*\*/
+delay(unsigned int d) {
+int i;
+for (i = 0; i<d; i++) {
+nop();
+}
 }
 
-int main(void) {  
-WDTCTL = WDTPW | WDTHOLD;  
-P1DIR = 0xFF;  
+int main(void) {
+WDTCTL = WDTPW | WDTHOLD;
+P1DIR = 0xFF;
 P1OUT = 0x01;   // THE x IS NOT Copy-Pasted CORRECTLY 🙂
 
-for (;;) {  
-P1OUT = ~P1OUT;  
-delay(0x4fff);  
-}  
+for (;;) {
+P1OUT = ~P1OUT;
+delay(0x4fff);
+}
 }
 
 Create a file named blink.c in a folder of your choice, copy this on the file and then cd on the folder. Now to compile it we need 3 lines (I also changed this to work):

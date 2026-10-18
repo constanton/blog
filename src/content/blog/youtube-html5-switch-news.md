@@ -19,7 +19,7 @@ I currently develop the Add-on at the [Add-on Builder](https://builder.addons.mo
 
 What’s more? [Wonky Doll and the Echo](http://wonkydollandtheecho.com/ "Wonky Doll and the Echo website") (the band where I play) are supporting [I Like Trains](https://en.wikipedia.org/wiki/I_Like_Trains "I Like Trains Wikipedia") here in Athens on December 15, 2012. You can check our [Bandcamp](http://wonkydollandtheecho.bandcamp.com "Wonky Doll and the Echo Bandcamp") page and listen to our songs. Now, if you have installed the Add-on you can test it with these video…if you go on YouTube of course 🙂
 
-Some videos like this for instance don’t have an HTML5 player so the plugin will not be of any use here.  
+Some videos like this for instance don’t have an HTML5 player so the plugin will not be of any use here.
 
 <iframe src="https://www.youtube.com/embed/pyWYgLhChyw?version=3&amp;rel=1&amp;showsearch=0&amp;showinfo=1&amp;iv_load_policy=1&amp;fs=1&amp;hl=en&amp;autohide=2&amp;wmode=transparent" title="Embedded video" loading="lazy" allow="fullscreen; picture-in-picture; encrypted-media" allowfullscreen></iframe>
 
